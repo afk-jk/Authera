@@ -798,12 +798,12 @@
                 </svg></div>
               <div>
                 <p style="font-weight: 700; color: #f59e0b; font-size: 0.9rem;">Limited Spots Available</p>
-                <p style="font-size: 0.8rem; color: #94a3b8; line-height: 1.4;">We only take on 2 new clients per month
+                <p style="font-size: 0.8rem; color: #94a3b8; line-height: 1.4;">We take on limited clients per month
                   to ensure premium results. Book now to secure your spot.</p>
               </div>
             </div>
 
-            <button class="btn btn-primary w-full"
+            <button id="open-calendar" class="btn btn-primary w-full"
               style="padding: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 1rem;">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
@@ -889,6 +889,183 @@
   </footer>
 
   <script type="module" src="./src/main.js"></script>
+
+  <!-- Booking Modal -->
+  <div class="booking-modal-overlay" id="booking-modal">
+    <div class="booking-modal-content">
+      <div class="modal-header">
+        <button class="back-btn" id="close-calendar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-chevron-left">
+            <path d="m15 18-6-6 6-6"></path>
+          </svg>
+        </button>
+        <div class="modal-title">
+          <h3>Pick Your Time</h3>
+          <p>Select a date and time that works for you (4pm - 9pm)</p>
+        </div>
+      </div>
+
+      <span class="selection-label">Select Date (up to 5 years from now)</span>
+
+      <div class="calendar-container">
+        <div class="calendar-nav">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+            style="color: #64748b;">
+            <path d="m15 18-6-6 6-6"></path>
+          </svg>
+          <span class="month-year">March 2026</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+            style="color: #64748b;">
+            <path d="m9 18 6-6-6-6"></path>
+          </svg>
+        </div>
+
+        <div class="calendar-grid">
+          <div class="day-label">Sun</div>
+          <div class="day-label">Mon</div>
+          <div class="day-label">Tue</div>
+          <div class="day-label">Wed</div>
+          <div class="day-label">Thu</div>
+          <div class="day-label">Fri</div>
+          <div class="day-label">Sat</div>
+
+          <!-- Calendar Dates (March 2026 starting Sunday) -->
+          <div class="date-cell faded">1</div>
+          <div class="date-cell faded">2</div>
+          <div class="date-cell faded">3</div>
+          <div class="date-cell faded">4</div>
+          <div class="date-cell faded">5</div>
+          <div class="date-cell faded">6</div>
+          <div class="date-cell faded">7</div>
+          <div class="date-cell faded">8</div>
+          <div class="date-cell faded">9</div>
+          <div class="date-cell selected">10</div>
+          <div class="date-cell active">11</div>
+          <div class="date-cell active">12</div>
+          <div class="date-cell active">13</div>
+          <div class="date-cell active">14</div>
+          <div class="date-cell active">15</div>
+          <div class="date-cell active">16</div>
+          <div class="date-cell active">17</div>
+          <div class="date-cell active">18</div>
+          <div class="date-cell active">19</div>
+          <div class="date-cell active">20</div>
+          <div class="date-cell active">21</div>
+          <div class="date-cell active">22</div>
+          <div class="date-cell active">23</div>
+          <div class="date-cell active">24</div>
+          <div class="date-cell active">25</div>
+          <div class="date-cell active">26</div>
+          <div class="date-cell active">27</div>
+          <div class="date-cell active">28</div>
+          <div class="date-cell active">29</div>
+          <div class="date-cell active">30</div>
+          <div class="date-cell active">31</div>
+        </div>
+      </div>
+
+      <span class="selection-label">Select Time (4pm - 9pm)</span>
+      <div class="time-grid">
+        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-clock">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg> 4:00 PM</div>
+        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-clock">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg> 4:30 PM</div>
+        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-clock">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg> 5:00 PM</div>
+        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-clock">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg> 5:30 PM</div>
+        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-clock">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg> 6:00 PM</div>
+        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-clock">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg> 6:30 PM</div>
+        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-clock">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg> 7:00 PM</div>
+        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-clock">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg> 7:30 PM</div>
+        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-clock">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg> 8:00 PM</div>
+        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-clock">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg> 8:30 PM</div>
+      </div>
+
+      <button class="btn-confirm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-calendar-check">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+          <path d="m9 16 2 2 4-4"></path>
+        </svg>
+        Confirm Booking →
+      </button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('open-calendar').addEventListener('click', () => {
+      document.getElementById('booking-modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    document.getElementById('close-calendar').addEventListener('click', () => {
+      document.getElementById('booking-modal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+    });
+
+    // Close on overlay click
+    document.getElementById('booking-modal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('booking-modal')) {
+        document.getElementById('booking-modal').classList.remove('active');
+        document.body.style.overflow = 'auto';
+      }
+    });
+  </script>
 </body>
 
 </html>
