@@ -69,28 +69,166 @@ document.addEventListener('DOMContentLoaded', () => {
 const initBookingSystem = () => {
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzX7kcIgef9Kk0q_b6MTASh66SgCcHnaM7fhC81ZK0dcN1vxoBxtn9WTmp-crMaRkVp9Q/exec';
 
-  let selectedDate = 'March 10, 2026'; // Default selected
+  const today = new Date();
+  let currentMonth = today.getMonth();
+  let currentYear = today.getFullYear();
+
+  let selectedDateObj = null;
   let selectedTime = null;
 
-  // Date Selection
-  const dates = document.querySelectorAll('.date-cell.active, .date-cell.selected');
-  dates.forEach(date => {
-    date.addEventListener('click', () => {
-      dates.forEach(d => d.classList.remove('selected'));
-      date.classList.add('selected');
-      selectedDate = `March ${date.textContent.trim()}, 2026`;
-    });
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+  const monthYearLabel = document.getElementById('current-month-year');
+  const calendarGrid = document.getElementById('calendar-grid-days');
+  const timeGrid = document.getElementById('time-grid-slots');
+
+  const renderCalendar = () => {
+    calendarGrid.innerHTML = `
+      <div class="day-label">Sun</div>
+      <div class="day-label">Mon</div>
+      <div class="day-label">Tue</div>
+      <div class="day-label">Wed</div>
+      <div class="day-label">Thu</div>
+      <div class="day-label">Fri</div>
+      <div class="day-label">Sat</div>
+    `;
+
+    monthYearLabel.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+    // Padding empty days
+    for (let i = 0; i < firstDay; i++) {
+      const emptyDiv = document.createElement('div');
+      emptyDiv.className = 'date-cell';
+      emptyDiv.style.visibility = 'hidden';
+      calendarGrid.appendChild(emptyDiv);
+    }
+
+    // Actual days
+    for (let i = 1; i <= daysInMonth; i++) {
+      const dateCell = document.createElement('div');
+      dateCell.className = 'date-cell';
+      dateCell.textContent = i;
+
+      const cellDate = new Date(currentYear, currentMonth, i);
+      const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+      if (cellDate < todayDateOnly) {
+        dateCell.classList.add('faded');
+        dateCell.style.cursor = 'not-allowed';
+      } else {
+        dateCell.classList.add('active');
+
+        // Retain selection if we re-render (e.g., flip months back and forth)
+        if (selectedDateObj &&
+          selectedDateObj.getDate() === i &&
+          selectedDateObj.getMonth() === currentMonth &&
+          selectedDateObj.getFullYear() === currentYear) {
+          dateCell.classList.add('selected');
+        }
+
+        dateCell.addEventListener('click', () => {
+          document.querySelectorAll('.date-cell.selected').forEach(d => d.classList.remove('selected'));
+          dateCell.classList.add('selected');
+          selectedDateObj = new Date(currentYear, currentMonth, i);
+          renderTimeSlots();
+        });
+      }
+
+      calendarGrid.appendChild(dateCell);
+    }
+  };
+
+  const renderTimeSlots = () => {
+    timeGrid.innerHTML = '';
+    selectedTime = null;
+
+    if (!selectedDateObj) return;
+
+    // Generate slots: 4:00 PM (16) to 8:30 PM (20.5)
+    // You can easily change this later to standard business hours (9-5)
+    const startHour = 16;
+    const endHour = 20.5;
+
+    const isToday = selectedDateObj.getDate() === today.getDate() &&
+      selectedDateObj.getMonth() === today.getMonth() &&
+      selectedDateObj.getFullYear() === today.getFullYear();
+
+    for (let time = startHour; time <= endHour; time += 0.5) {
+      const hour = Math.floor(time);
+      const min = (time % 1) !== 0 ? 30 : 0;
+
+      const slotTimeInfo = new Date(selectedDateObj);
+      slotTimeInfo.setHours(hour, min, 0, 0);
+
+      const displayHour = hour > 12 ? hour - 12 : hour;
+      const displayMin = min === 0 ? '00' : '30';
+      const ampm = hour >= 12 ? 'PM' : 'AM';
+      const timeString = `${displayHour}:${displayMin} ${ampm}`;
+
+      const timeSlot = document.createElement('div');
+      timeSlot.className = 'time-slot';
+      timeSlot.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-clock">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+        </svg> ${timeString}
+      `;
+
+      // Disable if isToday AND slot time has already passed according to their CPU clock
+      if (isToday && slotTimeInfo < new Date()) {
+        timeSlot.style.opacity = '0.3';
+        timeSlot.style.cursor = 'not-allowed';
+      } else {
+        timeSlot.addEventListener('click', () => {
+          document.querySelectorAll('.time-slot.selected').forEach(t => t.classList.remove('selected'));
+          timeSlot.classList.add('selected');
+          selectedTime = timeString;
+        });
+      }
+
+      timeGrid.appendChild(timeSlot);
+    }
+  };
+
+  // Nav Arrows Setup
+  document.getElementById('prev-month').addEventListener('click', () => {
+    if (currentYear === today.getFullYear() && currentMonth <= today.getMonth()) return;
+    currentMonth--;
+    if (currentMonth < 0) {
+      currentMonth = 11;
+      currentYear--;
+    }
+    renderCalendar();
   });
 
-  // Time Selection
-  const times = document.querySelectorAll('.time-slot');
-  times.forEach(time => {
-    time.addEventListener('click', () => {
-      times.forEach(t => t.classList.remove('selected'));
-      time.classList.add('selected');
-      selectedTime = time.textContent.trim();
-    });
+  document.getElementById('next-month').addEventListener('click', () => {
+    if (currentYear > today.getFullYear() + 4) return;
+    currentMonth++;
+    if (currentMonth > 11) {
+      currentMonth = 0;
+      currentYear++;
+    }
+    renderCalendar();
   });
+
+  // Initial Boot
+  selectedDateObj = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  renderCalendar();
+  renderTimeSlots();
+
+  // Highlight today's date automatically on boot
+  const cells = document.querySelectorAll('.date-cell.active');
+  for (let cell of cells) {
+    if (cell.textContent == today.getDate()) {
+      cell.classList.add('selected');
+      break;
+    }
+  }
 
   // Form Submission
   const confirmBtn = document.getElementById('confirm-booking');
@@ -99,7 +237,6 @@ const initBookingSystem = () => {
     const business = document.getElementById('business-name').value;
     const email = document.getElementById('user-email').value;
 
-    // Get checked problems
     const problems = Array.from(document.querySelectorAll('.problem-pills input:checked'))
       .map(input => input.nextElementSibling.textContent.trim())
       .join(', ');
@@ -109,13 +246,16 @@ const initBookingSystem = () => {
       return;
     }
 
-    if (!selectedTime) {
-      alert('Please select a time slot.');
+    if (!selectedTime || !selectedDateObj) {
+      alert('Please select a valid date and time slot.');
       return;
     }
 
     confirmBtn.disabled = true;
     confirmBtn.textContent = 'Sending...';
+
+    // Format the date nicely for the Google Sheet (e.g. March 14, 2026)
+    const formattedDate = `${monthNames[selectedDateObj.getMonth()]} ${selectedDateObj.getDate()}, ${selectedDateObj.getFullYear()}`;
 
     const formData = new URLSearchParams();
     formData.append('Timestamp', new Date().toLocaleString());
@@ -123,14 +263,14 @@ const initBookingSystem = () => {
     formData.append('Business', business);
     formData.append('Email', email);
     formData.append('Problems', problems);
-    formData.append('Date', selectedDate);
+    formData.append('Date', formattedDate);
     formData.append('Time', selectedTime);
 
     try {
       await fetch(SCRIPT_URL, {
         method: 'POST',
         body: formData,
-        mode: 'no-cors' // Google Script requires no-cors if not using complex CORS setup
+        mode: 'no-cors'
       });
 
       alert('Success! Your booking has been recorded in our Google Sheet.');
@@ -142,8 +282,8 @@ const initBookingSystem = () => {
       document.getElementById('business-name').value = '';
       document.getElementById('user-email').value = '';
       document.querySelectorAll('.problem-pills input:checked').forEach(i => i.checked = false);
-      times.forEach(t => t.classList.remove('selected'));
       selectedTime = null;
+      renderTimeSlots();
 
     } catch (error) {
       console.error('Error!', error.message);

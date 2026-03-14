@@ -916,15 +916,15 @@
             style="color: #64748b;">
             <path d="m15 18-6-6 6-6"></path>
           </svg>
-          <span class="month-year">March 2026</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-            style="color: #64748b;">
+          <span class="month-year" id="current-month-year">March 2026</span>
+          <svg id="next-month" style="cursor: pointer; color: #64748b;" xmlns="http://www.w3.org/2000/svg" width="18"
+            height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+            stroke-linejoin="round">
             <path d="m9 18 6-6-6-6"></path>
           </svg>
         </div>
 
-        <div class="calendar-grid">
+        <div class="calendar-grid" id="calendar-grid-days">
           <div class="day-label">Sun</div>
           <div class="day-label">Mon</div>
           <div class="day-label">Tue</div>
@@ -932,104 +932,13 @@
           <div class="day-label">Thu</div>
           <div class="day-label">Fri</div>
           <div class="day-label">Sat</div>
-
-          <!-- Calendar Dates (March 2026 starting Sunday) -->
-          <div class="date-cell faded">1</div>
-          <div class="date-cell faded">2</div>
-          <div class="date-cell faded">3</div>
-          <div class="date-cell faded">4</div>
-          <div class="date-cell faded">5</div>
-          <div class="date-cell faded">6</div>
-          <div class="date-cell faded">7</div>
-          <div class="date-cell faded">8</div>
-          <div class="date-cell faded">9</div>
-          <div class="date-cell selected">10</div>
-          <div class="date-cell active">11</div>
-          <div class="date-cell active">12</div>
-          <div class="date-cell active">13</div>
-          <div class="date-cell active">14</div>
-          <div class="date-cell active">15</div>
-          <div class="date-cell active">16</div>
-          <div class="date-cell active">17</div>
-          <div class="date-cell active">18</div>
-          <div class="date-cell active">19</div>
-          <div class="date-cell active">20</div>
-          <div class="date-cell active">21</div>
-          <div class="date-cell active">22</div>
-          <div class="date-cell active">23</div>
-          <div class="date-cell active">24</div>
-          <div class="date-cell active">25</div>
-          <div class="date-cell active">26</div>
-          <div class="date-cell active">27</div>
-          <div class="date-cell active">28</div>
-          <div class="date-cell active">29</div>
-          <div class="date-cell active">30</div>
-          <div class="date-cell active">31</div>
+          <!-- Dynamic dates inserted here via JS -->
         </div>
       </div>
 
       <span class="selection-label">Select Time (4pm - 9pm)</span>
-      <div class="time-grid">
-        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-clock">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-          </svg> 4:00 PM</div>
-        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-clock">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-          </svg> 4:30 PM</div>
-        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-clock">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-          </svg> 5:00 PM</div>
-        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-clock">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-          </svg> 5:30 PM</div>
-        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-clock">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-          </svg> 6:00 PM</div>
-        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-clock">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-          </svg> 6:30 PM</div>
-        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-clock">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-          </svg> 7:00 PM</div>
-        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-clock">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-          </svg> 7:30 PM</div>
-        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-clock">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-          </svg> 8:00 PM</div>
-        <div class="time-slot"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-clock">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-          </svg> 8:30 PM</div>
+      <div class="time-grid" id="time-grid-slots">
+        <!-- Dynamic time slots inserted here via JS -->
       </div>
 
       <button class="btn-confirm" id="confirm-booking">
