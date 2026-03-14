@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Booking System Logic
 const initBookingSystem = () => {
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzLAXdnejFicwauzJs-2cyEycV1LdGqF9BmczASaDZd4LDw7CwPRnxMqcr1vaaHwWe_mA/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzX7kcIgef9Kk0q_b6MTASh66SgCcHnaM7fhC81ZK0dcN1vxoBxtn9WTmp-crMaRkVp9Q/exec';
 
   let selectedDate = 'March 10, 2026'; // Default selected
   let selectedTime = null;
